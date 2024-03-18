@@ -1,2 +1,2 @@
 # Assembly-Exercises
- Esercizi in linguaggio assembly
+ Esercizi in linguaggio Assembly
