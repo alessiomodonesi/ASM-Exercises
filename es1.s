@@ -1,15 +1,21 @@
 @ direttive per compilatore
 .data @ dati inizializzati
-ind_a: .word 3
-ind_b: .word 5
+
+ind_a:
+        .word 3
+ind_b:
+        .word 5
 
 .bss @ dati non inizializzati
-ind_c: .space 4
+
+ind_c:
+        .space 4
 
 .text @ istruzioni
 .global main
 
 @ istruzioni macchina
+
 main:   ldr r0, =ind_a  @ r0 contiene ind_a   
         ldr r3, [r0]    @ carica r0 in r3
 
