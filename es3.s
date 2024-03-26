@@ -1,43 +1,43 @@
 .data
-
-vect: .word 1, 3, 6, 8, 10
+.word 1                                 @ crea una word e ci mette i valori
+vect: .word 1, 3, 6, 8, 10              @ array statico con 5 posizioni, ognuna occupata da 1 word (4 byte per word) (indicizzato con la label "vect")
+                                        @ la label "vect" punta alla prima cella
 
 .text
 .global main
 
-@vect[2] in R5
+@ voglio accedere al terzo elemento
 
-main:   ldr r0, =vect
+main:   ldr, r0, =vect                  @ r0 contiene l'indirizzo del vettore
 
-        @ prima variante
-        add r0, r0, #8
-        ldr r5, [r0]
+        @ prima versione
+        add r0, r0, #8                  @ cambiamo il valore di r0 (8: offset --> indica di quanto bisogna saltare per accedere ad una determinata word)
+        ldr, r5, [r0]                   
 
-        @ seconda variante
-        ldr r5, [r0, #8]
+        @ seconda versione
+        ldr r5, [r0, #8]                @ vai in memoria all'indirizzo r0+8
 
-        @ somma degli elementi in vect
-        @ r1 è il contatore del for loop for(i=0; i<5; i++) tmp = tmp + vect[i]
-        @ r2 la somma parziale tmp
-        @ r5 prossimo elemento da sommare a vect[i]
-        @ r0 indirizzo di vect
+@ vogliamo sommare i primi 5 elementi
+@ r1 e' il contatore del for loop       for (i = 0, i < 5, i++) tmp = tmp + vect[i] --> quanto devo saltare da vect per accedere a vect[i]
+@ r2 e' la somma parziale tmp
+@ r5 prossimo elemento da sommare (vect[i])
 
-        mov r1, #0
-        mov r2, #0
+mov r1, #0
+mov r2, #0
 
 loop:   ldr r5, [r0, r1]
         add r2, r2, r5
-        add r1, r1, #4
-        cmp r1, #20
+        add r1, r1, #4                  
+        cmp r1, #20                     @ 20 e' l'indirizzo dell'ultimo valore
         blt loop
 
-        @ seconda variante somma
-        mov r1, #0
-        mov r2, #0
-
-        @ r1 contiene indice non offset!
-loop2:  ldr r5, [r0, r1, LSL #2] @ logical shift left
+loop2:  ldr, r5, [r0, r1, lsl #2]       @ lsl: logical shift left (r1 * 2^2 --> r1 * 4)
         add r2, r2, r5
         add r1, r1, #1
         cmp r1, #5
         blt loop2
+
+main:   ldr r1, =A                      @ indirizzamento fatto con A sarebbe diretto, ma A e' un valore troppo grande (non ci sta nei 32 bit disponibili)
+                                        @ il compilatore trova un posto in memoria in cui mettere l'indirizzo di A
+                                        @ quando carichiamo in r1 l'indirizzo di A diciamo prendi il valore del PC e ci aggiungi un offset (che e' il valore di A)
+        ldr r0, [r1]
