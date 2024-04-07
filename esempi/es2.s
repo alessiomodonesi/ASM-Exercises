@@ -21,7 +21,7 @@ forloop:    cmp r1, #100        @ check per vedere se sono arrivato alla fine de
 
             b forloop
 
-@ metodo piu' semplice
+@ metodo più semplice
 
 forloop:    add r0, r0, r1
             add r1, r1, #1
@@ -30,5 +30,5 @@ forloop:    add r0, r0, r1
 
 endfor:     mov pc, lr          @ termina il programma
 
-@ addS .... : questa operazione modifica anche il bit di stato (a seconda dell'esito dell'add)
-@ cmpS .... : non cambia il bit di stato
+@ addS: questa operazione modifica anche il bit di stato (a seconda dell'esito dell'add)
+@ cmpS: non cambia il bit di stato
